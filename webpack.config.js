@@ -5,8 +5,8 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 module.exports = {
   mode: "production",
   entry: {
-    "index": path.resolve(__dirname, "src/index.ts"),
-    "index.min": path.resolve(__dirname, "src/index.ts"),
+    "index": path.resolve(__dirname, "src/index.tsx"),
+    "index.min": path.resolve(__dirname, "src/index.tsx"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -47,13 +47,25 @@ module.exports = {
           }
         }
       },
+      {
+        test: /\.scss$/,
+        include: path.resolve(__dirname, "src"),
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader",
+        ],
+      },
     ]
   },
   plugins: [
     new BundleAnalyzerPlugin()
   ],
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: [".ts", ".tsx"],
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
   },
   externals: {},
   optimization: {
